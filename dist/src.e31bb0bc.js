@@ -2357,8 +2357,67 @@ function _fetchFiles() {
   return _fetchFiles.apply(this, arguments);
 }
 
-btnSearch.addEventListener('click');
-btnLoadMore.addEventListener('click');
+;
+
+var searchFiles = function searchFiles() {
+  fetchFiles(input.value, pageNumber).then(function (photos) {
+    if (pageNumber < 1) {
+      gallery.innerHTML = '';
+    } else if (pageNumber >= 1) {
+      btnLoadMore.classList.remove('is-hidden');
+
+      if (leftHits <= 0) {
+        btnLoadMore.classList.add('is-hidden');
+
+        _notiflix.default.Notify.failure("We're sorry, but you've reached the end of search results.");
+      }
+    }
+
+    viewFiles(photos);
+    pageNumber += 1;
+    leftHits = totalHits - pageNumber * 40;
+  }).catch(function (error) {
+    console.log(error);
+  });
+};
+
+function viewFiles(photos) {
+  totalHits = photos.totalHits;
+
+  if (pageNumber <= 1) {
+    leftHits = totalHits;
+
+    if (totalHits <= 0) {
+      _notiflix.default.Notify.success("Found ".concat(photos.totalHits, " images"));
+    }
+  }
+
+  photos.hits.forEach(function (_ref) {
+    var webformatURL = _ref.webformatURL,
+        largeImageURL = _ref.largeImageURL,
+        tags = _ref.tags,
+        likes = _ref.likes,
+        views = _ref.views,
+        comments = _ref.comments,
+        downloads = _ref.downloads;
+    gallery.innerHTML += "<div class=\"photo-card\">\n                <a class=\"photo-carf__item\" href=\"".concat(largeImageURL, "\">\n                    <img class=\"photo-card__img\" src=\"").concat(webformatURL, "\" alt=\"").concat(tags, "\" loading=\"leazy\" />\n                </a>\n                <div class=\"info\">\n                    <p class=\"info-item\">\n                        <b class=\"info-item__description\">Likes\n                        <span class=\"info-item__count\">").concat(likes, "</span>\n                        </b>\n                    </p>\n                    <p class=\"info-item\">\n                        <b class=\"info-item__descriptions\">Views\n                        <span class=\"info-item__count\">").concat(views, "/span>\n                        </b>\n                    </p>\n                    <p class=\"info-item\">\n                        <b class=\"info-item__description\">Comments\n                        <span class=\"info-item__count\">").concat(comments, "</span>\n                        </b>\n                    </p>\n                    <p class=\"info-item\">\n                        <b class=\"info-item__descriptions\">Downloads\n                        <span class=\"info-item__count\">").concat(downloads, "/span>\n                        </b>\n                    </p>\n                </div>\n            </div>");
+  });
+}
+
+var searchFirstFiles = function searchFirstFiles(event) {
+  event.preventDefault();
+  pageNumber = 1;
+  gallery.innerHTML = '';
+  searchFiles();
+};
+
+var searchMoreFiles = function searchMoreFiles(event) {
+  event.preventDefault();
+  searchFiles();
+};
+
+btnSearch.addEventListener('click', searchFirstFiles);
+btnLoadMore.addEventListener('click', searchMoreFiles);
 },{"./sass/main.scss":"sass/main.scss","notiflix":"../node_modules/notiflix/dist/notiflix-aio-3.2.5.min.js","axios":"../node_modules/axios/index.js"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
