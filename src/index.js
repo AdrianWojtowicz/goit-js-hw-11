@@ -1,6 +1,7 @@
 import './sass/main.scss';
 import Notiflix from 'notiflix';
 import axios from 'axios';
+import 'regenerator-runtime/runtime';
 
 const btnSearch = document.querySelector('.search-btn');
 const btnLoadMore = document.querySelector('.load-more');
@@ -15,7 +16,7 @@ let leftHits;
 async function fetchFiles(search, page) {
     try {
         const response = await axios.get(
-            `https://pixabay.com/api/?key=${APIkey}&q=${search}&image_type=photo&orientation=horizontal&safesearch=true&page=${page}&per_page=40`,
+            `https://pixabay.com/api/?key=${APIkey}&q=${search}&image_type=photo&orientation=horizontal&safesearch=true&page=${page}&per_page=40`
         );
         return response.data;
     } catch (error) {
@@ -30,7 +31,7 @@ const searchFiles = () => {
                 gallery.innerHTML = '';
             } else if (pageNumber >= 1) {
                 btnLoadMore.classList.remove('is-hidden');
-                if (leftHits <= 0) {
+                if (leftHits < 0) {
                     btnLoadMore.classList.add('is-hidden');
                     Notiflix.Notify.failure(`We're sorry, but you've reached the end of search results.`);
                 }
@@ -49,7 +50,12 @@ function viewFiles(photos) {
     if (pageNumber <= 1) {
         leftHits = totalHits;
         if (totalHits <= 0) {
-            Notiflix.Notify.success(`Found ${photos.totalHits} images`);
+            Notiflix.Notify.failure(
+                `Sorry, there are no images matching your search query. Plese try again.`
+            );
+            btnLoadMore.classList.toggle('is-hidden');
+        } else {
+            Notiflix.Notify.success(`Found ${photos.totalHits} images`)
         }
     }
     photos.hits.forEach(
@@ -66,7 +72,7 @@ function viewFiles(photos) {
                     </p>
                     <p class="info-item">
                         <b class="info-item__descriptions">Views
-                        <span class="info-item__count">${views}/span>
+                        <span class="info-item__count">${views}</span>
                         </b>
                     </p>
                     <p class="info-item">
@@ -76,7 +82,7 @@ function viewFiles(photos) {
                     </p>
                     <p class="info-item">
                         <b class="info-item__descriptions">Downloads
-                        <span class="info-item__count">${downloads}/span>
+                        <span class="info-item__count">${downloads}</span>
                         </b>
                     </p>
                 </div>

@@ -1,7 +1,71 @@
-/*
- * Главный файл стилей.
- * Все паршалы подключаются сюда.
- */
+.search-form {
+    height: 60px;
+    width: 100vw;
+    background-color: #3480eb;
+    display: flex;
+    padding: 10px;
+    justify-content: center;
+}
 
-// Стили для файла с примером HTML-фрагмента
-@import './example';
+input {
+    border-radius: 8px;
+    border: none;
+    width: 300px;
+    height: 40px;
+}
+
+.gallery {
+    display: flex;
+    
+}
+
+
+button {
+    position: relative;
+    margin-left: 20px;
+    border-style:ridge;
+    border-radius: 8px;
+    background-color: #fff;
+    color: black;
+    text-align: center;
+    transition-duration: 0.4s;
+    text-decoration: none;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+button:after {
+    content: "";
+    background: #f1f1f1;
+    border-radius: 8px;
+    display: block;
+    position: absolute;
+    padding-top: 300%;
+    padding-left: 350%;
+    margin-left: -20px !important;
+    margin-top: -120%;
+    opacity: 0;
+    transition: all 0.8s;
+}
+
+button:active:after {
+    border-radius: 8px;
+    padding: 0;
+    margin: 0;
+    opacity: 1;
+    transition: 0s;
+}
+
+.load-more {
+    display: flex;
+    margin-left: 50vw;
+    padding: 10px;
+    margin-bottom: 20px;
+    background-color: #3480eb;
+    color: #fff;
+    border-style: dotted;
+}
+
+.is-hidden {
+    display: none;
+}

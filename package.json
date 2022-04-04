@@ -26,6 +26,7 @@
     "sass": "^1.32.8"
   },
   "dependencies": {
+    "@babel/polyfill": "^7.12.1",
     "ax": "^0.2.2",
     "axios": "^0.26.1",
     "notiflix": "^3.2.5"
