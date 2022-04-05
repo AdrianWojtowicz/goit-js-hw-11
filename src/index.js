@@ -1,6 +1,8 @@
 import './sass/main.scss';
 import Notiflix from 'notiflix';
 import axios from 'axios';
+import SimpleLightbox from 'simplelightbox';
+import 'simplelightbox/dist/simple-lightbox.min.css';
 import 'regenerator-runtime/runtime';
 
 const btnSearch = document.querySelector('.search-btn');
@@ -60,13 +62,14 @@ function viewFiles(photos) {
     }
     photos.hits.forEach(
         ({ webformatURL, largeImageURL, tags, likes, views, comments, downloads }) => {
-            gallery.innerHTML += `<div class="photo-card">
-                <a class="photo-carf__item" href="${largeImageURL}">
+            gallery.innerHTML += 
+            `<div class="photo-card">
+                <a class="photo-card__item" href="${largeImageURL}">
                     <img class="photo-card__img" src="${webformatURL}" alt="${tags}" loading="leazy" />
                 </a>
                 <div class="info">
                     <p class="info-item">
-                        <b class="info-item__description">Likes
+                        <b class="info-item__descriptions">Likes
                         <span class="info-item__count">${likes}</span>
                         </b>
                     </p>
@@ -76,7 +79,7 @@ function viewFiles(photos) {
                         </b>
                     </p>
                     <p class="info-item">
-                        <b class="info-item__description">Comments
+                        <b class="info-item__descriptions">Comments
                         <span class="info-item__count">${comments}</span>
                         </b>
                     </p>
@@ -88,10 +91,13 @@ function viewFiles(photos) {
                 </div>
             </div>`;
         }
-    )
+    );
+  let lightbox = new SimpleLightbox('.gallery a', {
+    captionPosition: 'outside',
+    captionsData: 'alt',
+    captionDelay: '600',
+  });
 }
-
-
 
 const searchFirstFiles = event => {
     event.preventDefault();

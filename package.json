@@ -29,6 +29,7 @@
     "@babel/polyfill": "^7.12.1",
     "ax": "^0.2.2",
     "axios": "^0.26.1",
-    "notiflix": "^3.2.5"
+    "notiflix": "^3.2.5",
+    "simplelightbox": "^2.10.3"
   }
 }
